@@ -1,0 +1,3 @@
+
+* API já com os filtros
+https://openlibrary.org/search.json?q=[ISBN]&fields=title,author_name,first_publish_year,subject
