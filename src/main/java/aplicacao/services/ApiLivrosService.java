@@ -16,6 +16,7 @@ package aplicacao.services;
 //}
 
 
+import aplicacao.controlers.LivroController;
 import aplicacao.models.LivroModel;
 import aplicacao.responses.LivroResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,13 +39,19 @@ public class ApiLivrosService {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
 
+
             if (response.statusCode() == 200){
                 ObjectMapper mapper = new ObjectMapper();
 
                 LivroResponse livroResponse = mapper.readValue(response.body(), LivroResponse.class);
+
+
+
+                LivroModel livroModel = new LivroModel();
                 if (livroResponse.getDocs() != null && !livroResponse.getDocs().isEmpty()) {
                     // Pegando o primeiro livro da lista de docs
-                    LivroModel livroModel = new LivroModel();
+
+
                     LivroModel livro = livroResponse.getDocs().get(0);
 
                     livroModel.setTitle(livro.getTitle());
@@ -54,6 +61,13 @@ public class ApiLivrosService {
 
 
                     // esse livro model que deverá ser amarzenado
+                    return livroModel;
+                } else if (livroResponse.getNumFound() == 0) {
+                    LivroController livroController = new LivroController();
+
+                    System.out.println("Livro não encontrado");
+                    System.out.println("Entrando no cadastro manualmente");
+                    livroModel = livroController.registrarLivro(livroResponse.getQ());
                     return livroModel;
                 }
 
@@ -66,6 +80,8 @@ public class ApiLivrosService {
         }
         return null;
     }
+
+
 
 
 }

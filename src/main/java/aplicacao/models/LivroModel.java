@@ -16,6 +16,9 @@ public class LivroModel {
 
     private List<String> subject;
 
+
+
+
     public String getTitle() {
         return title;
     }

@@ -10,6 +10,6 @@ public class Main {
 
         ApiLivrosService apiLivro = new ApiLivrosService();
 
-        System.out.println(apiLivro.getLivroModel("9786555355208"));
+        System.out.println(apiLivro.getLivroModel("978655535520"));
     }
 }
