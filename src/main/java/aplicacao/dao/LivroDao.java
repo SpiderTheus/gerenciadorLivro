@@ -13,8 +13,9 @@ import java.util.List;
 
 public class LivroDao {
 
+    // falta update, deletetar
     private static final String ARQUIVO_JSON = "/home/spider/study/java/gerenciadorLivros/src/data/livros.json";
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
     public LivroDao(){
         this.objectMapper = new ObjectMapper();
@@ -30,7 +31,7 @@ public class LivroDao {
         }
     }
 
-    private List<LivroModel> lerLivros() {
+    public List<LivroModel> lerLivros() {
         try {
             File file = new File(ARQUIVO_JSON);
             if(file.exists()) {
@@ -45,6 +46,19 @@ public class LivroDao {
             return new ArrayList<>();
         }
     }
+
+    public void excluirLivro(int indice){
+        try {
+            List<LivroModel> livros = lerLivros();
+            livros.remove(indice);
+            objectMapper.writeValue(new File(ARQUIVO_JSON), livros);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
 
 
 }

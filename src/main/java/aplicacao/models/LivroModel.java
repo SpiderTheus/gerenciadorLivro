@@ -1,11 +1,11 @@
 package aplicacao.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 //@JsonIgnoreProperties(ignoreUnknown = true)
 public class LivroModel {
+
     private String title;
 
     @JsonProperty("author_name")
@@ -15,7 +15,6 @@ public class LivroModel {
     private Integer firstPublishYear;
 
     private List<String> subject;
-
 
 
 
@@ -51,15 +50,15 @@ public class LivroModel {
         this.subject = subject;
     }
 
+
+
     @Override
     public String toString() {
-        return "Livro{" +
-                "title='" + title + '\'' +
+        return "LivroModel{" +
+                ", title='" + title + '\'' +
                 ", authorName=" + authorName +
                 ", firstPublishYear=" + firstPublishYear +
                 ", subject=" + subject +
                 '}';
     }
-
-
 }
