@@ -6,6 +6,7 @@ import java.util.List;
 //@JsonIgnoreProperties(ignoreUnknown = true)
 public class LivroModel {
 
+    public boolean setDisponivel;
     private String title;
 
     @JsonProperty("author_name")
@@ -16,9 +17,15 @@ public class LivroModel {
 
     private List<String> subject;
 
+    private boolean isDisponivel;
 
+
+    public LivroModel() {
+        this.isDisponivel = true;
+    }
 
     public String getTitle() {
+
         return title;
     }
 
@@ -50,15 +57,22 @@ public class LivroModel {
         this.subject = subject;
     }
 
+    public boolean isDisponivel() {
+        return isDisponivel;
+    }
 
+    public void setDisponivel(boolean disponivel) {
+        isDisponivel = disponivel;
+    }
 
     @Override
     public String toString() {
         return "LivroModel{" +
-                ", title='" + title + '\'' +
+                "title='" + title + '\'' +
                 ", authorName=" + authorName +
                 ", firstPublishYear=" + firstPublishYear +
                 ", subject=" + subject +
+                ", isDisponivel=" + isDisponivel +
                 '}';
     }
 }

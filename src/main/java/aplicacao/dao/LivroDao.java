@@ -13,7 +13,7 @@ import java.util.List;
 
 public class LivroDao {
 
-    // falta update, deletetar
+
     private static final String ARQUIVO_JSON = "/home/spider/study/java/gerenciadorLivros/src/data/livros.json";
     private final ObjectMapper objectMapper;
 
@@ -23,6 +23,7 @@ public class LivroDao {
     public void salvarLivro(LivroModel livro){
         try {
             List<LivroModel> livros = lerLivros();
+
             livros.add(livro);
             objectMapper.writeValue(new File(ARQUIVO_JSON), livros);
 
