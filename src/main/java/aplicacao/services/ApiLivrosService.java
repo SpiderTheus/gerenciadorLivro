@@ -17,6 +17,7 @@ package aplicacao.services;
 
 
 import aplicacao.controlers.LivroController;
+import aplicacao.dao.LivroDao;
 import aplicacao.models.LivroModel;
 import aplicacao.responses.LivroResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,6 +49,7 @@ public class ApiLivrosService {
 
 
                 LivroModel livroModel = new LivroModel();
+                LivroDao livroDao = new LivroDao();
                 if (livroResponse.getDocs() != null && !livroResponse.getDocs().isEmpty()) {
                     // Pegando o primeiro livro da lista de docs
 
@@ -60,7 +62,8 @@ public class ApiLivrosService {
                     livroModel.setSubject(livro.getSubject());
 
 
-                    // esse livro model que deverá ser amarzenado
+
+                    livroDao.salvarLivro(livroModel);
                     return livroModel;
                 } else if (livroResponse.getNumFound() == 0) {
                     LivroController livroController = new LivroController();
@@ -68,6 +71,7 @@ public class ApiLivrosService {
                     System.out.println("Livro não encontrado");
                     System.out.println("Entrando no cadastro manualmente");
                     livroModel = livroController.registrarLivro(livroResponse.getQ());
+                    livroDao.salvarLivro(livroModel);
                     return livroModel;
                 }
 
