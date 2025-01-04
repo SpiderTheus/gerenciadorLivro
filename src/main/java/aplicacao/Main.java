@@ -18,11 +18,15 @@ public class Main {
         EmprestimoDao emprestimoDao = new EmprestimoDao();
 
 
-        //System.out.println(apiLivro.getLivroModel("9788582852477"));
+        //apiLivro.getLivroModel("9786555522280");
 
         //livroDao.excluirLivro(2);
 
-        //emprestimoDao.emprestarLivro(0, "Matheus");
+        emprestimoDao.emprestarLivro(3, "Julie");
+
+        //emprestimoDao.devolverLivro(0);
+
+
         List<LivroModel> livros = livroDao.lerLivros();
         List<EmprestimoModel> empretismos = emprestimoDao.lerEmprestimos();
 

@@ -13,6 +13,7 @@ import java.util.List;
 public class EmprestimoDao {
     private static final String ARQUIVO_JSON = "/home/spider/study/java/gerenciadorLivros/src/data/livros_emprestados.json";
     private final ObjectMapper objectMapper;
+    LivroDao livroDao = new LivroDao();
 
     public EmprestimoDao(){
         this.objectMapper = new ObjectMapper();
@@ -20,7 +21,7 @@ public class EmprestimoDao {
 
     public void emprestarLivro(int indice, String responsavel){
         try {
-            LivroDao livroDao = new LivroDao();
+
             List<LivroModel> livros = livroDao.lerLivros();
 
             LivroModel livro = livros.get(indice);
@@ -42,6 +43,25 @@ public class EmprestimoDao {
             System.out.println(e.getMessage());
         }
     }
+
+    public void devolverLivro(int indice){
+        List<EmprestimoModel> livrosEmprestados = lerEmprestimos();
+        LivroModel livroDevolucao = livrosEmprestados.get(indice).getLivro();
+        livroDao.salvarLivro(livroDevolucao);
+        apagarEmprestimo(indice);
+    }
+
+    private void apagarEmprestimo(int indice) {
+        try {
+            List<EmprestimoModel> livrosEmprestados = lerEmprestimos();
+            livrosEmprestados.remove(indice);
+            objectMapper.writeValue(new File(ARQUIVO_JSON), livrosEmprestados);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 
     public List<EmprestimoModel> lerEmprestimos() {
         try {
