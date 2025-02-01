@@ -13,15 +13,10 @@ public class LivroModel {
     private boolean emprestado;
 
     public LivroModel() {
-    }
-
-    public LivroModel(String title, List<String> authors, Integer publishedDate, List<String> categories) {
-        this.title = title;
-        this.authors = authors;
-        this.publishedDate = publishedDate;
-        this.categories = categories;
         this.emprestado = false;
     }
+
+
 
     public String getTitle() {
         return title;

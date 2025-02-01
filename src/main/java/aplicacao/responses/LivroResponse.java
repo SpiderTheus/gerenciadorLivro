@@ -6,73 +6,75 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 public class LivroResponse {
+    private List<Item> items;
 
-    private int numFound;
-    private int start;
-    private boolean numFoundExact;
-
-    private List<LivroModel> docs;
-    @JsonProperty("num_found")
-    private int numFoundResponse;
-
-    private  String q;
-
-    private int offset;
-
-    public int getNumFound() {
-        return numFound;
+    public List<Item> getItems() {
+        return items;
     }
 
-    public void setNumFound(int numFound) {
-        this.numFound = numFound;
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
+    public static class Item {
+        private VolumeInfo volumeInfo;
 
-    public int getStart() {
-        return start;
-    }
+        public VolumeInfo getVolumeInfo() {
+            return volumeInfo;
+        }
 
-    public void setStart(int start) {
-        this.start = start;
-    }
+        public void setVolumeInfo(VolumeInfo volumeInfo) {
+            this.volumeInfo = volumeInfo;
+        }
 
-    public boolean isNumFoundExact() {
-        return numFoundExact;
-    }
-
-    public void setNumFoundExact(boolean numFoundExact) {
-        this.numFoundExact = numFoundExact;
-    }
-
-    public List<LivroModel> getDocs() {
-        return docs;
-    }
-
-    public void setDocs(List<LivroModel> docs) {
-        this.docs = docs;
-    }
+        public static class VolumeInfo {
+            private String title;
+            private List<String> authors;
+            private String publishedDate;
+            private List<String> categories;
 
 
-    public int getNumFoundResponse() {
-        return numFoundResponse;
-    }
+            public String getTitle() {
+                return title;
+            }
 
-    public void setNumFoundResponse(int numFoundResponse) {
-        this.numFoundResponse = numFoundResponse;
-    }
+            public void setTitle(String title) {
+                this.title = title;
+            }
 
-    public String getQ() {
-        return q;
-    }
+            public List<String> getAuthors() {
+                return authors;
+            }
 
-    public void setQ(String q) {
-        this.q = q;
-    }
+            public void setAuthors(List<String> authors) {
+                this.authors = authors;
+            }
 
-    public int getOffset() {
-        return offset;
-    }
+            public String getPublishedDate() {
+                return publishedDate;
+            }
 
-    public void setOffset(int offset) {
-        this.offset = offset;
+            public void setPublishedDate(String publishedDate) {
+                this.publishedDate = publishedDate;
+            }
+
+            public List<String> getCategories() {
+                return categories;
+            }
+
+            public void setCategories(List<String> categories) {
+                this.categories = categories;
+            }
+
+            @Override
+            public String toString() {
+                return "VolumeInfo{" +
+                        "title='" + title + '\'' +
+                        ", authors=" + authors +
+                        ", publishedDate='" + publishedDate + '\'' +
+                        ", categories=" + categories +
+                        '}';
+            }
+        }
     }
 }
+
