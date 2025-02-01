@@ -6,26 +6,24 @@ import java.util.List;
 //@JsonIgnoreProperties(ignoreUnknown = true)
 public class LivroModel {
 
-    public boolean setDisponivel;
     private String title;
-
-    @JsonProperty("author_name")
-    private List<String> authorName;
-
-    @JsonProperty("first_publish_year")
-    private Integer firstPublishYear;
-
-    private List<String> subject;
-
-    private boolean isDisponivel;
-
+    private List<String> authors;
+    private Integer publishedDate;
+    private List<String> categories;
+    private boolean emprestado;
 
     public LivroModel() {
-        this.isDisponivel = true;
+    }
+
+    public LivroModel(String title, List<String> authors, Integer publishedDate, List<String> categories) {
+        this.title = title;
+        this.authors = authors;
+        this.publishedDate = publishedDate;
+        this.categories = categories;
+        this.emprestado = false;
     }
 
     public String getTitle() {
-
         return title;
     }
 
@@ -33,46 +31,49 @@ public class LivroModel {
         this.title = title;
     }
 
-    public List<String> getAuthorName() {
-        return authorName;
+    public List<String> getAuthors() {
+        return authors;
     }
 
-    public void setAuthorName(List<String> authorName) {
-        this.authorName = authorName;
+    public void setAuthors(List<String> authors) {
+        this.authors = authors;
     }
 
-    public Integer getFirstPublishYear() {
-        return firstPublishYear;
+    public Integer getPublishedDate() {
+        return publishedDate;
     }
 
-    public void setFirstPublishYear(Integer firstPublishYear) {
-        this.firstPublishYear = firstPublishYear;
+    public void setPublishedDate(Integer publishedDate) {
+        this.publishedDate = publishedDate;
     }
 
-    public List<String> getSubject() {
-        return subject;
+    public List<String> getCategories() {
+        return categories;
     }
 
-    public void setSubject(List<String> subject) {
-        this.subject = subject;
+    public void setCategories(List<String> categories) {
+        this.categories = categories;
     }
 
-    public boolean isDisponivel() {
-        return isDisponivel;
+    public boolean isEmprestado() {
+        return emprestado;
     }
 
-    public void setDisponivel(boolean disponivel) {
-        isDisponivel = disponivel;
+    public void setEmprestado(boolean emprestado) {
+        this.emprestado = emprestado;
     }
+
 
     @Override
     public String toString() {
         return "LivroModel{" +
                 "title='" + title + '\'' +
-                ", authorName=" + authorName +
-                ", firstPublishYear=" + firstPublishYear +
-                ", subject=" + subject +
-                ", isDisponivel=" + isDisponivel +
+                ", authors=" + authors +
+                ", publishedDate=" + publishedDate +
+                ", categories=" + categories +
+                ", emprestado=" + emprestado +
                 '}';
     }
+
+
 }

@@ -25,7 +25,7 @@ public class EmprestimoDao {
             List<LivroModel> livros = livroDao.lerLivros();
 
             LivroModel livro = livros.get(indice);
-            if (livro.isDisponivel()){
+            if (!livro.isEmprestado()){
 
                 EmprestimoModel emprestimo = new EmprestimoModel(livro, responsavel);
 

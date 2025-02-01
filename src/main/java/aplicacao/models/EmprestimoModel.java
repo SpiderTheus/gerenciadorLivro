@@ -16,6 +16,7 @@ public class EmprestimoModel {
     public EmprestimoModel(LivroModel livro, String nomeResponsavel) {
         this.livro = livro;
         this.nomeResponsavel = nomeResponsavel;
+
     }
 
     public LivroModel getLivro() {

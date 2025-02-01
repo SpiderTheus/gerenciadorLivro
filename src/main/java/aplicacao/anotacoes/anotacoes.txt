@@ -1,3 +1,7 @@
 
+
+
 * API já com os filtros
+api do google, credencial: AIzaSyDJ4X5teNueYu6nTftNLOosa4rP8-g0ZS8
+https://www.googleapis.com/books/v1/volumes?q=a+biblioteca+da+meia-noite+intitle:keyes&fields=items(volumeInfo/title,volumeInfo/authors,volumeInfo/publishedDate, volumeInfo/categories)&AIzaSyDJ4X5teNueYu6nTftNLOosa4rP8-g0ZS8=yourAPIKey
 https://openlibrary.org/search.json?q=[ISBN]&fields=title,author_name,first_publish_year,subject

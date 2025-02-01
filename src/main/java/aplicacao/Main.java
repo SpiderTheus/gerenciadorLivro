@@ -18,13 +18,13 @@ public class Main {
         EmprestimoDao emprestimoDao = new EmprestimoDao();
 
 
-        //apiLivro.getLivroModel("9786555522280");
+        //apiLivro.getLivroModel("9788582852477 p");
 
         //livroDao.excluirLivro(2);
 
-        emprestimoDao.emprestarLivro(3, "Julie");
+        emprestimoDao.emprestarLivro(0, "matheus");
 
-        //emprestimoDao.devolverLivro(0);
+        emprestimoDao.devolverLivro(2);
 
 
         List<LivroModel> livros = livroDao.lerLivros();
