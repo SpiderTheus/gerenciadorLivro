@@ -1,5 +1,6 @@
 package aplicacao.controlers;
 
+import aplicacao.dao.LivroDao;
 import aplicacao.models.LivroModel;
 
 import java.util.Arrays;
@@ -7,46 +8,44 @@ import java.util.List;
 import java.util.Scanner;
 
 public class LivroController {
+    LivroModel livroModel = new LivroModel();
+    LivroDao livroDao = new LivroDao();
+    Scanner sc = new Scanner(System.in);
 
-    public LivroModel registrarLivro(String q){
-        LivroModel livroModel = new LivroModel();
 
+    public void registrarLivroManualmente(String title){
+        System.out.println("* Registrando"+ title +" Manualmente * \n" +
+                "(preencha todos os campos como for solicitado)");
         while (true){
-            Scanner sc = new Scanner(System.in);
             try {
-
-                System.out.println("Digite o titulo do livro:");
-                String title = sc.nextLine();
-
                 System.out.println("Digite o nome dos autores:(sempre separe por virgula!)");
-                String authorNames = sc.nextLine();
-                List<String> authorName = Arrays.asList(authorNames.split(","));
+                String authors = sc.nextLine();
+
+                List<String> authorNames = Arrays.asList(authors.split(","));
                 
                 System.out.println("Digite o ano de lançamento da edição:");
-                Integer firstPublishYear = sc.nextInt();
+
+                Integer publishYear = sc.nextInt();
                 sc.nextLine();
 
-                System.out.println("Digite os generos:(sempre separe por virgula!)");
-                String subjects = sc.nextLine();
-                List<String> subject = Arrays.asList(subjects.split(","));
+                System.out.println("Quais as categorias:(sempre separe por virgula!)");
+                String categories = sc.nextLine();
+                List<String> subject = Arrays.asList(categories.split(","));
 
                 livroModel.setTitle(title);
-                livroModel.setAuthorName(authorName);
-                livroModel.setFirstPublishYear(firstPublishYear);
-                livroModel.setSubject(subject);
+                livroModel.setAuthors(authorNames);
+                livroModel.setPublishedDate(publishYear);
+                livroModel.setCategories(subject);
 
+                livroDao.salvarLivro(livroModel);
                 sc.close();
-                return livroModel;
+                return;
             } catch (Exception e){
                 System.out.println("Algo deu errado, tente novamente!");
                 System.out.println(e.getMessage());
                 sc.nextLine();
             }
         }
-
-
-
-
 
     };
 

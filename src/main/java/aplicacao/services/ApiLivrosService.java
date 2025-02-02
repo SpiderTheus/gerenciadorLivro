@@ -15,12 +15,16 @@ import java.util.List;
 import java.util.Optional;
 
 public class ApiLivrosService {
-
-    public LivroModel getLivroModel(String titulo){
+                                    //titulo tem que ter todos os espaços em branco com "+"
+    public void getLivroModel(String titulo){
         try {
+            String tituloPlus = titulo.replace(" ", "+");
+            System.out.println(tituloPlus + " " + titulo);
+
             HttpClient client = HttpClient.newHttpClient();
+
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("https://www.googleapis.com/books/v1/volumes?q=" + titulo +"+intitle:keyes&fields=items(volumeInfo/title,volumeInfo/authors,volumeInfo/publishedDate, volumeInfo/categories)&AIzaSyDJ4X5teNueYu6nTftNLOosa4rP8-g0ZS8=yourAPIKey"))
+                    .uri(URI.create("https://www.googleapis.com/books/v1/volumes?q=" + tituloPlus +"+intitle:keyes&fields=items(volumeInfo/title,volumeInfo/authors,volumeInfo/publishedDate,volumeInfo/categories)&AIzaSyDJ4X5teNueYu6nTftNLOosa4rP8-g0ZS8=yourAPIKey"))
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
@@ -28,14 +32,23 @@ public class ApiLivrosService {
             if (response.statusCode() == 200){
                 ObjectMapper mapper = new ObjectMapper();
 
-                ArrayList<LivroModel> livros = new ArrayList<>();
                 LivroDao livroDao = new LivroDao();
                 LivroController livroController = new LivroController();
                 try {
+                    String responseBody = response.body();
+                    if (responseBody == null || responseBody.trim().isEmpty()) {
+                        System.out.println("Resposta da API vazia ou inválida.");
+                        return;
+                    }
+
                     LivroResponse livroResponse = mapper.readValue(response.body(), LivroResponse.class);
                     List<LivroResponse.Item> items = livroResponse.getItems();
+
+
                     if (items != null){
-                       Optional<LivroResponse.Item> resultado = items.stream().filter(i -> i.getVolumeInfo().getTitle().equalsIgnoreCase(titulo)).findFirst();
+                       Optional<LivroResponse.Item> resultado = items.stream()
+                               .filter(i -> i.getVolumeInfo().getTitle().equalsIgnoreCase(titulo))
+                               .findFirst();
 
                        if (resultado.isPresent()){
                            LivroResponse.Item item = resultado.get();
@@ -45,10 +58,11 @@ public class ApiLivrosService {
                            livroModel.setAuthors(item.getVolumeInfo().getAuthors());
                            livroModel.setCategories(item.getVolumeInfo().getCategories());
 
+                           System.out.println(livroModel);
                            livroDao.salvarLivro(livroModel);
                        } else {
                            System.out.println("Livro com o título '" + titulo + "' não encontrado.");
-                           livroController.registrarLivro(titulo);
+                           livroController.registrarLivroManualmente(titulo);
                        }
 
                     }
@@ -65,7 +79,6 @@ public class ApiLivrosService {
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
-        return null;
     }
 
 

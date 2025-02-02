@@ -2,6 +2,7 @@ package aplicacao.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
+import java.util.Objects;
 
 //@JsonIgnoreProperties(ignoreUnknown = true)
 public class LivroModel {
@@ -58,10 +59,21 @@ public class LivroModel {
         this.emprestado = emprestado;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        LivroModel that = (LivroModel) o;
+        return emprestado == that.emprestado && Objects.equals(title, that.title) && Objects.equals(authors, that.authors) && Objects.equals(publishedDate, that.publishedDate) && Objects.equals(categories, that.categories);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, authors, publishedDate, categories, emprestado);
+    }
 
     @Override
     public String toString() {
-        return "LivroModel{" +
+        return "Livro: {" +
                 "title='" + title + '\'' +
                 ", authors=" + authors +
                 ", publishedDate=" + publishedDate +

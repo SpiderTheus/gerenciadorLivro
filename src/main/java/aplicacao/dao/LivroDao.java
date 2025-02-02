@@ -13,7 +13,6 @@ import java.util.List;
 
 public class LivroDao {
 
-
     private static final String ARQUIVO_JSON = "/home/spider/study/java/gerenciadorLivros/src/data/livros.json";
     private final ObjectMapper objectMapper;
 
@@ -23,6 +22,11 @@ public class LivroDao {
     public void salvarLivro(LivroModel livro){
         try {
             List<LivroModel> livros = lerLivros();
+
+            if(livros.contains(livro)){
+                System.out.println(livro.getTitle() + ", Esse livro já está Registrado");
+                return;
+            }
 
             livros.add(livro);
             objectMapper.writeValue(new File(ARQUIVO_JSON), livros);
@@ -48,10 +52,10 @@ public class LivroDao {
         }
     }
 
-    public void excluirLivro(int indice){
+    public void excluirLivro(String title){
         try {
             List<LivroModel> livros = lerLivros();
-            livros.remove(indice);
+            livros.removeIf(l -> l.getTitle().equalsIgnoreCase(title));
             objectMapper.writeValue(new File(ARQUIVO_JSON), livros);
 
         } catch (Exception e) {

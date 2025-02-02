@@ -1,5 +1,7 @@
 package aplicacao.models;
 
+import aplicacao.controlers.LivroController;
+
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -11,13 +13,14 @@ public class EmprestimoModel {
     public EmprestimoModel() {
         //
     }
-
-
+    
     public EmprestimoModel(LivroModel livro, String nomeResponsavel) {
         this.livro = livro;
         this.nomeResponsavel = nomeResponsavel;
 
     }
+
+
 
     public LivroModel getLivro() {
         return livro;

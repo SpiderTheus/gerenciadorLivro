@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.type.CollectionType;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class EmprestimoDao {
     private static final String ARQUIVO_JSON = "/home/spider/study/java/gerenciadorLivros/src/data/livros_emprestados.json";
@@ -19,29 +20,33 @@ public class EmprestimoDao {
         this.objectMapper = new ObjectMapper();
     }
 
-    public void emprestarLivro(int indice, String responsavel){
+    public void emprestarLivro(LivroModel livro, String responsavel){
         try {
-
-            List<LivroModel> livros = livroDao.lerLivros();
-
-            LivroModel livro = livros.get(indice);
             if (!livro.isEmprestado()){
-
                 EmprestimoModel emprestimo = new EmprestimoModel(livro, responsavel);
-
 
                 List<EmprestimoModel> emprestimos = lerEmprestimos();
                 emprestimos.add(emprestimo);
                 objectMapper.writeValue(new File(ARQUIVO_JSON), emprestimos);
 
-                livroDao.excluirLivro(indice);
-
-
+                livroDao.excluirLivro(livro.getTitle());
+            } else {
+                System.out.println("Livro: "+ livro.getTitle()+"Já foi emprestado para: " + obterResponsavel(livro.getTitle()));
             }
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    private String obterResponsavel(String title) {
+        List<EmprestimoModel> livrosEmprestados = lerEmprestimos();
+        Optional<String> nomeResponsavel = livrosEmprestados.stream()
+                .filter(e -> e.getLivro().getTitle().equalsIgnoreCase(title))
+                .map(EmprestimoModel::getNomeResponsavel).findFirst();
+
+        return nomeResponsavel.orElse("Responsavel não identificado");
+
     }
 
     public void devolverLivro(int indice){
