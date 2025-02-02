@@ -14,10 +14,15 @@ public class Main {
         System.out.println("Hello, World!");
         ApiLivrosService apiLivrosService = new ApiLivrosService();
         LivroDao livroDao = new LivroDao();
+        EmprestimoDao emprestimoDao = new EmprestimoDao();
+
+        List<LivroModel> livros = livroDao.lerLivros();
 
 
-        //apiLivrosService.getLivroModel("os sofrimentos do jovem werther");
-        livroDao.lerLivros().forEach(System.out::println);
+        //emprestimoDao.emprestarLivro(livros.get(1), "Matheus");
+        //emprestimoDao.devolverLivro(0);
+        apiLivrosService.getLivroModel("As vantagens de ser invisivel");
+        //livroDao.lerLivros().forEach(System.out::println);
 
 
     }

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.type.CollectionType;
 
 
 import java.io.File;
+import java.sql.Struct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,14 +25,13 @@ public class EmprestimoDao {
         try {
             if (!livro.isEmprestado()){
                 EmprestimoModel emprestimo = new EmprestimoModel(livro, responsavel);
-
                 List<EmprestimoModel> emprestimos = lerEmprestimos();
                 emprestimos.add(emprestimo);
                 objectMapper.writeValue(new File(ARQUIVO_JSON), emprestimos);
-
-                livroDao.excluirLivro(livro.getTitle());
+                livroDao.atualizarLivroEmprestimo(livro.getTitle(), true);
+                System.out.println(livro.getTitle() + ", Foi emprestado para " + obterResponsavel(livro.getTitle()));
             } else {
-                System.out.println("Livro: "+ livro.getTitle()+"Já foi emprestado para: " + obterResponsavel(livro.getTitle()));
+                System.out.println("Livro: "+ livro.getTitle()+", já foi emprestado para: " + obterResponsavel(livro.getTitle()));
             }
 
         } catch (Exception e) {
@@ -49,11 +49,12 @@ public class EmprestimoDao {
 
     }
 
-    public void devolverLivro(int indice){
+    public void devolverLivro(int i){
         List<EmprestimoModel> livrosEmprestados = lerEmprestimos();
-        LivroModel livroDevolucao = livrosEmprestados.get(indice).getLivro();
-        livroDao.salvarLivro(livroDevolucao);
-        apagarEmprestimo(indice);
+        String livroDevolucao = livrosEmprestados.get(i).getLivro().getTitle();
+        livroDao.atualizarLivroEmprestimo(livroDevolucao, false);
+        System.out.println(livroDevolucao + ", Foi devolvido");
+        apagarEmprestimo(i);
     }
 
     private void apagarEmprestimo(int indice) {

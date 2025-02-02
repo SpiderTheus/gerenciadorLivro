@@ -39,6 +39,7 @@ public class LivroController {
 
                 livroDao.salvarLivro(livroModel);
                 sc.close();
+                System.out.println(livroModel + " Adicionado");
                 return;
             } catch (Exception e){
                 System.out.println("Algo deu errado, tente novamente!");

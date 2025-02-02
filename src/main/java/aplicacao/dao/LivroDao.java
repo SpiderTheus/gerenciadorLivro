@@ -1,5 +1,6 @@
 package aplicacao.dao;
 
+import aplicacao.models.EmprestimoModel;
 import aplicacao.models.LivroModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
@@ -25,6 +26,9 @@ public class LivroDao {
 
             if(livros.contains(livro)){
                 System.out.println(livro.getTitle() + ", Esse livro já está Registrado");
+                return;
+            } else if (livroExiste(livro.getTitle())) {
+                System.out.println(livro.getTitle() + ", esse livro está Registrado mas foi emprestado");
                 return;
             }
 
@@ -63,7 +67,20 @@ public class LivroDao {
         }
     }
 
+    public void atualizarLivroEmprestimo(String title, Boolean isEmprest) {
+        try {
+            List<LivroModel> livros = lerLivros();
+            livros.stream().filter(l -> l.getTitle().equalsIgnoreCase(title))
+                    .forEach(l -> l.setEmprestado(isEmprest));
+            objectMapper.writeValue(new File(ARQUIVO_JSON), livros);
 
-
-
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    public boolean livroExiste(String t) {
+        List<LivroModel> livros = lerLivros();
+        return livros.stream()
+                .anyMatch(l -> l.getTitle().equalsIgnoreCase(t));
+    }
 }

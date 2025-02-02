@@ -24,10 +24,11 @@ public class ApiLivrosService {
             HttpClient client = HttpClient.newHttpClient();
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("https://www.googleapis.com/books/v1/volumes?q=" + tituloPlus +"+intitle:keyes&fields=items(volumeInfo/title,volumeInfo/authors,volumeInfo/publishedDate,volumeInfo/categories)&AIzaSyDJ4X5teNueYu6nTftNLOosa4rP8-g0ZS8=yourAPIKey"))
+                    .uri(URI.create("https://www.googleapis.com/books/v1/volumes?q=" + tituloPlus +"&fields=items(volumeInfo/title,volumeInfo/authors,volumeInfo/publishedDate,volumeInfo/categories)&AIzaSyDJ4X5teNueYu6nTftNLOosa4rP8-g0ZS8=yourAPIKey"))
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
+            System.out.println(response.statusCode());
 
             if (response.statusCode() == 200){
                 ObjectMapper mapper = new ObjectMapper();
@@ -58,8 +59,9 @@ public class ApiLivrosService {
                            livroModel.setAuthors(item.getVolumeInfo().getAuthors());
                            livroModel.setCategories(item.getVolumeInfo().getCategories());
 
-                           System.out.println(livroModel);
+
                            livroDao.salvarLivro(livroModel);
+                           System.out.println(livroModel + "Adicionado");
                        } else {
                            System.out.println("Livro com o título '" + titulo + "' não encontrado.");
                            livroController.registrarLivroManualmente(titulo);
