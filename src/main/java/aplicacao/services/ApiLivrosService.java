@@ -19,7 +19,7 @@ public class ApiLivrosService {
     public void getLivroModel(String titulo){
         try {
             String tituloPlus = titulo.replace(" ", "+");
-            System.out.println(tituloPlus + " " + titulo);
+
 
             HttpClient client = HttpClient.newHttpClient();
 
@@ -28,7 +28,7 @@ public class ApiLivrosService {
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            System.out.println(response.statusCode());
+
 
             if (response.statusCode() == 200){
                 ObjectMapper mapper = new ObjectMapper();
@@ -61,7 +61,7 @@ public class ApiLivrosService {
 
 
                            livroDao.salvarLivro(livroModel);
-                           System.out.println(livroModel + "Adicionado");
+                           System.out.println("Adicionado com sucesso: \n" + livroModel );
                        } else {
                            System.out.println("Livro com o título '" + titulo + "' não encontrado.");
                            livroController.registrarLivroManualmente(titulo);

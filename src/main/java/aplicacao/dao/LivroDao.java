@@ -22,6 +22,7 @@ public class LivroDao {
     }
     public void salvarLivro(LivroModel livro){
         try {
+
             List<LivroModel> livros = lerLivros();
 
             if(livros.contains(livro)){

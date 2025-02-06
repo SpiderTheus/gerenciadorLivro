@@ -12,7 +12,6 @@ public class LivroController {
     LivroDao livroDao = new LivroDao();
     Scanner sc = new Scanner(System.in);
 
-
     public void registrarLivroManualmente(String title){
         System.out.println("* Registrando"+ title +" Manualmente * \n" +
                 "(preencha todos os campos como for solicitado)");
@@ -30,6 +29,8 @@ public class LivroController {
 
                 System.out.println("Quais as categorias:(sempre separe por virgula!)");
                 String categories = sc.nextLine();
+
+
                 List<String> subject = Arrays.asList(categories.split(","));
 
                 livroModel.setTitle(title);
@@ -38,8 +39,7 @@ public class LivroController {
                 livroModel.setCategories(subject);
 
                 livroDao.salvarLivro(livroModel);
-                sc.close();
-                System.out.println(livroModel + " Adicionado");
+                System.out.println("Adicionado com sucesso: " + livroModel);
                 return;
             } catch (Exception e){
                 System.out.println("Algo deu errado, tente novamente!");
