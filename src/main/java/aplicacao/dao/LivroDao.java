@@ -35,6 +35,7 @@ public class LivroDao {
 
             livros.add(livro);
             objectMapper.writeValue(new File(ARQUIVO_JSON), livros);
+            System.out.println("Adicionado com sucesso: \n" + livro);
 
         } catch (Exception e){
             System.out.println(e.getMessage());
@@ -60,9 +61,13 @@ public class LivroDao {
     public void excluirLivro(String title){
         try {
             List<LivroModel> livros = lerLivros();
-            livros.removeIf(l -> l.getTitle().equalsIgnoreCase(title));
+            boolean isRm = livros.removeIf(l -> l.getTitle().equalsIgnoreCase(title));
+            if (!isRm){
+                System.out.println(title + ", Esse livro não existe em memoria");
+                return;
+            }
             objectMapper.writeValue(new File(ARQUIVO_JSON), livros);
-
+            System.out.println("Livro apagado com sucesso!");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

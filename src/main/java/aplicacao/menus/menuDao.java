@@ -13,7 +13,7 @@ public interface menuDao {
     ApiLivrosService livrosControl = new ApiLivrosService();
 
     void registrarLivro();
-    List<LivroModel> mostrarLivros();
+    void mostrarLivros();
     void apagarLivro();
     void emprestarLivro();
     void devolverLivro();

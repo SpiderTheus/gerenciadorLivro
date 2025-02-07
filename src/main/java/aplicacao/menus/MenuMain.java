@@ -1,5 +1,6 @@
 package aplicacao.menus;
 
+import aplicacao.models.EmprestimoModel;
 import aplicacao.models.LivroModel;
 
 import java.util.List;
@@ -29,9 +30,11 @@ public class MenuMain implements menuDao {
                         break;
                     case 2:
                         System.out.println("- Mostrar Livros -");
+                        mostrarLivros();
                         break;
                     case 3:
                         System.out.println("- Apagar Livro -");
+                        apagarLivro();
                         break;
                     case 4:
                         System.out.println("- Emprestar Livro -");
@@ -59,14 +62,8 @@ public class MenuMain implements menuDao {
                 System.out.println("0 - para voltar");
                 Optional<String> title = sc.nextLine().describeConstable();
 
-                if (title.get().equals("0")){
-                    break;
-                }
+                if (title.get().equals("0"))break;
                 title.ifPresentOrElse(menuDao.livrosControl::getLivroModel, RuntimeException::new);
-
-
-
-
                 break;
             } catch (Exception e) {
                 System.out.println("Error: "+ e.getMessage());
@@ -77,17 +74,31 @@ public class MenuMain implements menuDao {
     }
 
     @Override
-    public List<LivroModel> mostrarLivros() {
-        return List.of();
+    public void mostrarLivros() {
+        System.out.println("*Lista de livros*");
+        List<LivroModel> listLivros = menuDao.livroDao.lerLivros();
+        listLivros.forEach(System.out::println);
+
+        System.out.println("*Lista de livros emprestados*");
+        List<EmprestimoModel> listLivrosEm = menuDao.emprestimoDao.lerEmprestimos();
+        listLivrosEm.forEach(System.out::println);
     }
 
     @Override
     public void apagarLivro() {
 
+            System.out.println("Digite o nome do livro");
+            System.out.println("0 - para voltar");
+            String title = sc.nextLine();
+
+            if (title.equals("0"))return;
+
+            menuDao.livroDao.excluirLivro(title);
     }
 
     @Override
     public void emprestarLivro() {
+
 
     }
 

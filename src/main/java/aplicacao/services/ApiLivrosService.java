@@ -61,7 +61,7 @@ public class ApiLivrosService {
 
 
                            livroDao.salvarLivro(livroModel);
-                           System.out.println("Adicionado com sucesso: \n" + livroModel );
+
                        } else {
                            System.out.println("Livro com o título '" + titulo + "' não encontrado.");
                            livroController.registrarLivroManualmente(titulo);
