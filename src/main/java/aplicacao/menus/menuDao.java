@@ -2,10 +2,8 @@ package aplicacao.menus;
 
 import aplicacao.dao.EmprestimoDao;
 import aplicacao.dao.LivroDao;
-import aplicacao.models.LivroModel;
 import aplicacao.services.ApiLivrosService;
 
-import java.util.List;
 
 public interface menuDao {
     LivroDao livroDao = new LivroDao();

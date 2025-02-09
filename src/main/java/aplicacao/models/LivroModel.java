@@ -1,10 +1,8 @@
 package aplicacao.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.Objects;
 
-//@JsonIgnoreProperties(ignoreUnknown = true)
 public class LivroModel {
 
     private String title;
@@ -17,12 +15,9 @@ public class LivroModel {
         this.emprestado = false;
     }
 
-
-
     public String getTitle() {
         return title;
     }
-
     public void setTitle(String title) {
         this.title = title;
     }
@@ -30,7 +25,6 @@ public class LivroModel {
     public List<String> getAuthors() {
         return authors;
     }
-
     public void setAuthors(List<String> authors) {
         this.authors = authors;
     }
@@ -38,7 +32,6 @@ public class LivroModel {
     public Integer getPublishedDate() {
         return publishedDate;
     }
-
     public void setPublishedDate(Integer publishedDate) {
         this.publishedDate = publishedDate;
     }
@@ -46,7 +39,6 @@ public class LivroModel {
     public List<String> getCategories() {
         return categories;
     }
-
     public void setCategories(List<String> categories) {
         this.categories = categories;
     }
@@ -54,7 +46,6 @@ public class LivroModel {
     public boolean isEmprestado() {
         return emprestado;
     }
-
     public void setEmprestado(boolean emprestado) {
         this.emprestado = emprestado;
     }
@@ -73,15 +64,11 @@ public class LivroModel {
 
     @Override
     public String toString() {
-        return "Livro: {" +
-                "title='" + title + '\'' +
-                ", authors=" + authors +
-                ", publishedDate=" + publishedDate +
-                ", categories=" + categories +
+        return "titulo='" + title + '\'' +
+                ", autores=" + authors +
+                ", Data de publicação=" + publishedDate +
+                ", categorias=" + categories +
                 ", emprestado=" + emprestado +
                 '}';
     }
-
-
-
 }

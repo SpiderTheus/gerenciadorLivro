@@ -15,20 +15,15 @@ import java.util.List;
 import java.util.Optional;
 
 public class ApiLivrosService {
-                                    //titulo tem que ter todos os espaços em branco com "+"
     public void getLivroModel(String titulo){
         try {
             String tituloPlus = titulo.replace(" ", "+");
 
-
             HttpClient client = HttpClient.newHttpClient();
-
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("https://www.googleapis.com/books/v1/volumes?q=" + tituloPlus +"&fields=items(volumeInfo/title,volumeInfo/authors,volumeInfo/publishedDate,volumeInfo/categories)&AIzaSyDJ4X5teNueYu6nTftNLOosa4rP8-g0ZS8=yourAPIKey"))
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-
 
             if (response.statusCode() == 200){
                 ObjectMapper mapper = new ObjectMapper();
@@ -45,11 +40,10 @@ public class ApiLivrosService {
                     LivroResponse livroResponse = mapper.readValue(response.body(), LivroResponse.class);
                     List<LivroResponse.Item> items = livroResponse.getItems();
 
-
-                    if (items != null){
-                       Optional<LivroResponse.Item> resultado = items.stream()
-                               .filter(i -> i.getVolumeInfo().getTitle().equalsIgnoreCase(titulo))
-                               .findFirst();
+                    if (items != null && !items.isEmpty()) {
+                        Optional<LivroResponse.Item> resultado = items.stream()
+                                .filter(i -> i.getVolumeInfo().getTitle().equalsIgnoreCase(titulo))
+                                .findFirst();
 
                        if (resultado.isPresent()){
                            LivroResponse.Item item = resultado.get();
@@ -59,9 +53,7 @@ public class ApiLivrosService {
                            livroModel.setAuthors(item.getVolumeInfo().getAuthors());
                            livroModel.setCategories(item.getVolumeInfo().getCategories());
 
-
                            livroDao.salvarLivro(livroModel);
-
                        } else {
                            System.out.println("Livro com o título '" + titulo + "' não encontrado.");
                            livroController.registrarLivroManualmente(titulo);

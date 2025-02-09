@@ -1,8 +1,5 @@
 package aplicacao.responses;
 
-import aplicacao.models.LivroModel;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
 
 public class LivroResponse {
@@ -17,11 +14,9 @@ public class LivroResponse {
     }
     public static class Item {
         private VolumeInfo volumeInfo;
-
         public VolumeInfo getVolumeInfo() {
             return volumeInfo;
         }
-
         public void setVolumeInfo(VolumeInfo volumeInfo) {
             this.volumeInfo = volumeInfo;
         }
@@ -32,11 +27,9 @@ public class LivroResponse {
             private String publishedDate;
             private List<String> categories;
 
-
             public String getTitle() {
                 return title;
             }
-
             public void setTitle(String title) {
                 this.title = title;
             }
@@ -44,7 +37,6 @@ public class LivroResponse {
             public List<String> getAuthors() {
                 return authors;
             }
-
             public void setAuthors(List<String> authors) {
                 this.authors = authors;
             }
@@ -52,7 +44,6 @@ public class LivroResponse {
             public String getPublishedDate() {
                 return publishedDate;
             }
-
             public void setPublishedDate(String publishedDate) {
                 this.publishedDate = publishedDate;
             }
@@ -60,7 +51,6 @@ public class LivroResponse {
             public List<String> getCategories() {
                 return categories;
             }
-
             public void setCategories(List<String> categories) {
                 this.categories = categories;
             }

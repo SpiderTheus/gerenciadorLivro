@@ -38,12 +38,15 @@ public class MenuMain implements menuDao {
                         break;
                     case 4:
                         System.out.println("- Emprestar Livro -");
+                        emprestarLivro();
                         break;
                     case 5:
                         System.out.println("- Devolver Livro -");
+                        devolverLivro();
                         break;
                     case 0:
-                        System.out.println("- Encerrar Sistema -");
+                        System.out.println("- Encerrando Sistema -");
+                        System.out.println("- Seus dados foram salvos -");
                         return;
                 }
 
@@ -61,36 +64,37 @@ public class MenuMain implements menuDao {
                 System.out.println("Digite o titulo do livro");
                 System.out.println("0 - para voltar");
                 Optional<String> title = sc.nextLine().describeConstable();
-
-                if (title.get().equals("0"))break;
-                title.ifPresentOrElse(menuDao.livrosControl::getLivroModel, RuntimeException::new);
-                break;
+                if(title.isPresent()){
+                    if (title.get().equals("0"))break;
+                    title.ifPresentOrElse(menuDao.livrosControl::getLivroModel, RuntimeException::new);
+                    break;
+                }
             } catch (Exception e) {
                 System.out.println("Error: "+ e.getMessage());
             }
-
         }
-
     }
 
     @Override
     public void mostrarLivros() {
         System.out.println("*Lista de livros*");
         List<LivroModel> listLivros = menuDao.livroDao.lerLivros();
+        listLivros.sort((l1, l2) -> l1.getTitle().compareToIgnoreCase(l2.getTitle()));
         listLivros.forEach(System.out::println);
 
         System.out.println("*Lista de livros emprestados*");
         List<EmprestimoModel> listLivrosEm = menuDao.emprestimoDao.lerEmprestimos();
+        listLivrosEm.sort((l1, l2) -> l1.getNomeResponsavel().compareToIgnoreCase(l2.getNomeResponsavel()));
         listLivrosEm.forEach(System.out::println);
     }
 
     @Override
     public void apagarLivro() {
-
-            System.out.println("Digite o nome do livro");
+            mostrarLivros();
+            System.out.println("Digite o nome do livro:");
             System.out.println("0 - para voltar");
-            String title = sc.nextLine();
 
+            String title = sc.nextLine();
             if (title.equals("0"))return;
 
             menuDao.livroDao.excluirLivro(title);
@@ -98,12 +102,32 @@ public class MenuMain implements menuDao {
 
     @Override
     public void emprestarLivro() {
+        System.out.println("Livros disponíveis");
+        menuDao.livroDao.lerLivros().stream().filter(l -> !l.isEmprestado()).forEach(System.out::println);
+        System.out.println("Digite o titulo do livro:");
+        System.out.println("0 - para voltar");
+        String title = sc.nextLine();
 
-
+        if(title.equals("0")) return;
+        Optional<LivroModel> livro = menuDao.livroDao.obterLivro(title);
+        if(livro.isPresent()){
+            System.out.println("Digite o nome do responsável:");
+            String resp = sc.nextLine();
+            menuDao.emprestimoDao.emprestarLivro(livro.get(), resp);
+        } else {
+            System.out.println("Livro não encontrado!");
+        }
     }
 
     @Override
     public void devolverLivro() {
+        System.out.println("Qual livro você deseja devolver");
+        menuDao.emprestimoDao.lerEmprestimos().forEach(System.out::println);
+        System.out.println("Digite o titulo:");
+        String title = sc.nextLine();
+
+        if(title.equals("0")) return;
+        menuDao.emprestimoDao.devolverLivro(title);
 
     }
 }

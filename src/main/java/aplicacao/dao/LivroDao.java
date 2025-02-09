@@ -1,16 +1,13 @@
 package aplicacao.dao;
 
-import aplicacao.models.EmprestimoModel;
 import aplicacao.models.LivroModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
-import com.fasterxml.jackson.databind.type.TypeFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public class LivroDao {
 
@@ -22,7 +19,6 @@ public class LivroDao {
     }
     public void salvarLivro(LivroModel livro){
         try {
-
             List<LivroModel> livros = lerLivros();
 
             if(livros.contains(livro)){
@@ -47,6 +43,7 @@ public class LivroDao {
             File file = new File(ARQUIVO_JSON);
             if(file.exists()) {
                 CollectionType listType = objectMapper.getTypeFactory().constructCollectionType(List.class, LivroModel.class);
+
                 return  objectMapper.readValue(file, listType);
             } else {
                 return new ArrayList<>();
@@ -76,6 +73,7 @@ public class LivroDao {
     public void atualizarLivroEmprestimo(String title, Boolean isEmprest) {
         try {
             List<LivroModel> livros = lerLivros();
+
             livros.stream().filter(l -> l.getTitle().equalsIgnoreCase(title))
                     .forEach(l -> l.setEmprestado(isEmprest));
             objectMapper.writeValue(new File(ARQUIVO_JSON), livros);
@@ -84,9 +82,15 @@ public class LivroDao {
             System.out.println(e.getMessage());
         }
     }
+
     public boolean livroExiste(String t) {
         List<LivroModel> livros = lerLivros();
         return livros.stream()
                 .anyMatch(l -> l.getTitle().equalsIgnoreCase(t));
+    }
+
+    public Optional<LivroModel> obterLivro(String title){
+        List<LivroModel> livros = lerLivros();
+        return livros.stream().filter(l -> l.getTitle().equalsIgnoreCase(title)).findFirst();
     }
 }

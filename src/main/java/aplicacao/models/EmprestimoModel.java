@@ -11,21 +11,16 @@ public class EmprestimoModel {
     private LivroModel livro;
 
     public EmprestimoModel() {
-        //
     }
-    
+
     public EmprestimoModel(LivroModel livro, String nomeResponsavel) {
         this.livro = livro;
         this.nomeResponsavel = nomeResponsavel;
-
     }
-
-
 
     public LivroModel getLivro() {
         return livro;
     }
-
     public void setLivro(LivroModel livro) {
         this.livro = livro;
     }
@@ -33,7 +28,6 @@ public class EmprestimoModel {
     public String getNomeResponsavel() {
         return nomeResponsavel;
     }
-
     public void setNomeResponsavel(String nomeResponsavel) {
         this.nomeResponsavel = nomeResponsavel;
     }
@@ -41,9 +35,7 @@ public class EmprestimoModel {
 
     @Override
     public String toString() {
-        return "EmprestimoModel{" +
-                "nomeResponsavel='" + nomeResponsavel + '\'' +
-                ", livro=" + livro +
-                '}';
+        return "Empréstimo{" +
+                "Responsável='" + nomeResponsavel + '\'' + livro + '}';
     }
 }

@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.type.CollectionType;
 
 
 import java.io.File;
-import java.sql.Struct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,10 +25,11 @@ public class EmprestimoDao {
             if (!livro.isEmprestado()){
                 EmprestimoModel emprestimo = new EmprestimoModel(livro, responsavel);
                 List<EmprestimoModel> emprestimos = lerEmprestimos();
+                emprestimo.getLivro().setEmprestado(true);
                 emprestimos.add(emprestimo);
                 objectMapper.writeValue(new File(ARQUIVO_JSON), emprestimos);
                 livroDao.atualizarLivroEmprestimo(livro.getTitle(), true);
-                System.out.println(livro.getTitle() + ", Foi emprestado para " + obterResponsavel(livro.getTitle()));
+                System.out.println(livro.getTitle() + " Emprestado para " + obterResponsavel(livro.getTitle())+".");
             } else {
                 System.out.println("Livro: "+ livro.getTitle()+", já foi emprestado para: " + obterResponsavel(livro.getTitle()));
             }
@@ -46,28 +46,33 @@ public class EmprestimoDao {
                 .map(EmprestimoModel::getNomeResponsavel).findFirst();
 
         return nomeResponsavel.orElse("Responsavel não identificado");
-
     }
 
-    public void devolverLivro(int i){
-        List<EmprestimoModel> livrosEmprestados = lerEmprestimos();
-        String livroDevolucao = livrosEmprestados.get(i).getLivro().getTitle();
-        livroDao.atualizarLivroEmprestimo(livroDevolucao, false);
-        System.out.println(livroDevolucao + ", Foi devolvido");
-        apagarEmprestimo(i);
-    }
-
-    private void apagarEmprestimo(int indice) {
+    public void devolverLivro(String title){
         try {
             List<EmprestimoModel> livrosEmprestados = lerEmprestimos();
-            livrosEmprestados.remove(indice);
+
+            String livroDevolucao = livrosEmprestados.stream().filter(e -> e.getLivro().getTitle().equalsIgnoreCase(title)).findFirst().get().getLivro().getTitle();
+            livroDao.atualizarLivroEmprestimo(livroDevolucao, false);
+            System.out.println(livroDevolucao + ", Foi devolvido");
+            apagarEmprestimo(title);
+
+        } catch (Exception e) {
+            System.out.println("Erro ao devolver livro");
+        }
+
+    }
+
+    private void apagarEmprestimo(String title) {
+        try {
+            List<EmprestimoModel> livrosEmprestados = lerEmprestimos();
+            livrosEmprestados.removeIf(e -> e.getLivro().getTitle().equalsIgnoreCase(title));
             objectMapper.writeValue(new File(ARQUIVO_JSON), livrosEmprestados);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
-
 
     public List<EmprestimoModel> lerEmprestimos() {
         try {
@@ -78,12 +83,9 @@ public class EmprestimoDao {
             } else {
                 return new ArrayList<>();
             }
-
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return new ArrayList<>();
         }
     }
-
-
 }
